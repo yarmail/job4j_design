@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/yarmail/job4j_design.svg?branch=master)](https://travis-ci.org/yarmail/job4j_design)
 
 ### Java Junior level tasks
 
