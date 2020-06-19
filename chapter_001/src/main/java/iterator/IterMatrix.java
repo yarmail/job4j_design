@@ -12,12 +12,6 @@ public class IterMatrix implements Iterator<Integer> {
         this.data = data;
     }
 
-    /**
-     * Есть ли следующий элемент в массиве
-     * если индекс текущей строки не выходит за пределы
-     * общего количества строк, но в ней нет элементов
-     * (занятых столбцов) ...
-     */
     @Override
     public boolean hasNext() {
         while (row < data.length && data[row].length == 0) {

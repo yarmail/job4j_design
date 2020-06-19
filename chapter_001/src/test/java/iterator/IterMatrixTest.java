@@ -4,8 +4,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 import java.util.NoSuchElementException;
-import java.util.stream.IntStream;
-
 
 public class IterMatrixTest {
 
@@ -85,5 +83,4 @@ public class IterMatrixTest {
         assertThat(it.hasNext(), is(true));
         assertThat(it.hasNext(), is(true));
     }
-
 }
