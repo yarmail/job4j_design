@@ -18,7 +18,7 @@ public class IterArray implements Iterator<Integer> {
     }
 
     /**
-     * Двигаться, пока point < data.length ?
+     * Ограничения на движение указателей
      *
      */
     @Override

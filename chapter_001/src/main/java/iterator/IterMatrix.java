@@ -26,7 +26,7 @@ public class IterMatrix implements Iterator<Integer> {
             throw new NoSuchElementException();
         }
         int result = data[row][column++];
-        if (column > data[row].length - 1) {
+        if (column == data[row].length) {
             row++;
             column = 0;
         }
