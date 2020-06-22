@@ -45,6 +45,8 @@ public class IterArray implements Iterator<Integer> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        return data[point++];
+        int result = data[point];
+        point = point + 1;
+        return result;
     }
 }

@@ -3,6 +3,11 @@ package iterator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+
+/**
+ * Iterator for two-dimensional array
+ * 5.1.1. Итератор для двухмерного массива int[][] [#293773]
+ */
 public class IterMatrix implements Iterator<Integer> {
     private final int[][] data;
     private int row = 0;
