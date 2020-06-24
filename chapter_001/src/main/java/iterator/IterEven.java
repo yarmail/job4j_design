@@ -20,11 +20,29 @@ public class IterEven implements Iterator<Integer> {
     boolean isEven(int pointer) {
         return data[pointer] % 2 == 0;
     }
+    // 2 вариант решения начало
+    @Override
+    public boolean hasNext() {
+        boolean result = false;
+        while (pointer < data.length) {
+            if (data[pointer] % 2 == 0) {
+                result = true;
+                break;
+            }
+            pointer++;
+        }
+        return result;
+    }
+    @Override
+    public Integer next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        return data[pointer++];
+    }
+    // 2 вариант решения конец
 
-    /**
-     * Проверка и возврат интексов четных чисел,
-     * если они есть
-     */
+/* 1 вариант решения начало
     private int iNextEven(int pointer) {
         int  iNextEven = -1;
         for (int i = pointer; i < data.length; i++) {
@@ -58,4 +76,7 @@ public class IterEven implements Iterator<Integer> {
         pointer++;
         return result;
     }
+    // конец 1 варианта
+*/
+
 }
