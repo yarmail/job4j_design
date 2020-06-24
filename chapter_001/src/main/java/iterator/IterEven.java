@@ -17,9 +17,6 @@ public class IterEven implements Iterator<Integer> {
         this.data = data;
     }
 
-    boolean isEven(int pointer) {
-        return data[pointer] % 2 == 0;
-    }
     // 2 вариант решения начало
     @Override
     public boolean hasNext() {
