@@ -26,6 +26,7 @@ public class FlatMap<T> implements Iterator<T> {
         boolean result = false;
         while (data.hasNext()) {
             while (data.next().hasNext()) {
+                result = true;
             }
         }
         return false;
