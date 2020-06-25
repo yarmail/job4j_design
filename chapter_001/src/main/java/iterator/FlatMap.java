@@ -14,8 +14,7 @@ import java.util.stream.Collectors;
 
 public class FlatMap<T> implements Iterator<T> {
     private final Iterator<Iterator<T>> data;
-    private Iterator<T> it;
-    private T t;
+
 
     public FlatMap(Iterator<Iterator<T>> data) {
         this.data = data;
@@ -24,12 +23,17 @@ public class FlatMap<T> implements Iterator<T> {
     @Override
     public boolean hasNext() {
         boolean result = false;
+        // пока есть следующий элемент
         while (data.hasNext()) {
+            //пока у этого элемента есть составляющие
             while (data.next().hasNext()) {
+                data.next().next();
                 result = true;
             }
+            data.next();
+
         }
-        return false;
+        return result;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class FlatMap<T> implements Iterator<T> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        return it.next();
+        return data.next().next();
     }
 }
 
