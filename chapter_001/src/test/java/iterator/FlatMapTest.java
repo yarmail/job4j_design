@@ -1,13 +1,12 @@
 package iterator;
 
+import java.util.List;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
-
-import org.junit.Ignore;
-import org.junit.Test;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 public class FlatMapTest {
 

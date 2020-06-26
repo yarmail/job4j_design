@@ -1,9 +1,7 @@
 package iterator;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 
 /**
@@ -14,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class FlatMap<T> implements Iterator<T> {
     private final Iterator<Iterator<T>> data;
-
+    private Iterator<T> iter;
 
     public FlatMap(Iterator<Iterator<T>> data) {
         this.data = data;
@@ -22,18 +20,14 @@ public class FlatMap<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        boolean result = false;
-        // пока есть следующий элемент
-        while (data.hasNext()) {
-            //пока у этого элемента есть составляющие
-            while (data.next().hasNext()) {
-                data.next().next();
-                result = true;
-            }
-            data.next();
-
+        // первичная инициализация iter
+        if (data.hasNext() && iter == null) {
+            iter = data.next();
         }
-        return result;
+        while (iter != null && data.hasNext() && !iter.hasNext()) {
+            iter = data.next();
+        }
+        return iter.hasNext();
     }
 
     @Override
@@ -41,7 +35,7 @@ public class FlatMap<T> implements Iterator<T> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        return data.next().next();
+        return iter.next();
     }
 }
 
