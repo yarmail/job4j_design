@@ -40,6 +40,19 @@ public class FlatMap<T> implements Iterator<T> {
 }
 
 
+/* Ещё вариант
+private Iterator<Integer> current = Colections.emptyIterator();
+@Override
+    public boolean hasNext() {
+        while (its.hasNext()) && !corrent.hasNext()) {
+        corrent = its.next();
+        }
+        return !corrent.hasNext()
+    }
+    ...
+
+ */
+
 /* так делать нельзя
 
     private List<T> temp = new ArrayList<>();
