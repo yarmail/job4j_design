@@ -10,8 +10,6 @@ import java.util.NoSuchElementException;
  * Need to make a wrapper over the array
  * Необходимо сделать обертку над массивом
  * 5.2.1. Реализовать SimpleArray<T> [#156]
- *  Для проверки индекса используйте метод Objects.checkIndex
- *  В методах, где используется индекс нужно делать валидацию.
  */
 public class ArrayWrapper<T> implements Iterator<T> {
 
@@ -30,75 +28,40 @@ public class ArrayWrapper<T> implements Iterator<T> {
 
     /**
      * Если в массиве не хватает места, добавляем объем
+     * Размер массива нужно увеличить как минимум в два раза,
+     * потому что это тяжелая операция
      */
     private void addVolumeToArray() {
-
-        this.array = Arrays.copyOf(this.array, this.array.length + 1);
-
+        this.array = Arrays.copyOf(this.array, this.array.length * 2);
     }
 
     public void add(T value) {
-        try {
-            Objects.checkIndex(position, array.length);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("не хватило места, расширяем массив");
+        if (position == array.length - 1) {
             addVolumeToArray();
-        } finally {
-            this.array[position] = value;
-            position++;
         }
+        array[position++] = value;
     }
 
     public void set(int index, T value) {
-        boolean invalid = false;
-        try {
-            Objects.checkIndex(index, array.length);
-        } catch (IndexOutOfBoundsException e) {
-            invalid = true;
-            System.out.println("индекс задан неверно");
-            // не знаю, что дальше с этим делать
-        }
-        if (!invalid) {
-            array[index] = value;
-        }
+        Objects.checkIndex(index, position);
+        array[index] = value;
     }
 
     public T get(int index) {
-        boolean invalid = false;
-        T result = null;
-        try {
-            Objects.checkIndex(index, array.length);
-        } catch (IndexOutOfBoundsException e) {
-            invalid = true;
-            System.out.println("индекс задан неверно");
-            // не знаю, что дальше с этим делать
-        }
-        if (!invalid) {
-            result = (T) array[position];
-        }
-        return result;
+        Objects.checkIndex(index, position);
+        return (T) array[index];
     }
 
     public void remove(int index) {
-        boolean invalid = false;
-        try {
-            Objects.checkIndex(index, array.length);
-        } catch (IndexOutOfBoundsException e) {
-            invalid = true;
-            System.out.println("индекс задан неверно");
-            // не знаю, что дальше с этим делать
+        Objects.checkIndex(index, position);
+        System.arraycopy(array, index + 1, array, index, array.length - index - 1);
+        array[position - 1] = null;
+        position--;
         }
-        if (!invalid) {
-            System.arraycopy(array, index + 1, array, index, array.length - index - 1);
-            array[position - 1] = null;
-            position--;
-        }
-
-    }
 
     @Override
     public boolean hasNext() {
-        return pointer < array.length;
+        return pointer < position;
     }
 
     @Override
