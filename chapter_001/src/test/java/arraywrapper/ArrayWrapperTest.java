@@ -41,8 +41,8 @@ public class ArrayWrapperTest {
         ArrayWrapper<Integer> intArray = new ArrayWrapper<>(2);
         intArray.add(123);
         intArray.add(456);
-        assertThat(intArray.next(), is(123));
-        assertThat(intArray.next(), is(456));
+        assertThat(intArray.iterator().next(), is(123));
+        assertThat(intArray.iterator().next(), is(456));
 
     }
 
@@ -52,14 +52,13 @@ public class ArrayWrapperTest {
         intArray.set(5, 123);
     }
 
-
     @Test(expected = NoSuchElementException.class)
     public void nextIsException() {
         ArrayWrapper<Integer> intArray = new ArrayWrapper<>(3);
         intArray.add(123);
         intArray.add(456);
-        intArray.next();
-        intArray.next();
-        intArray.next();
+        intArray.iterator().next();
+        intArray.iterator().next();
+        intArray.iterator().next();
     }
 }

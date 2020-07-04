@@ -10,10 +10,11 @@ import java.util.NoSuchElementException;
  * Need to make a wrapper over the array
  * Необходимо сделать обертку над массивом
  * 5.2.1. Реализовать SimpleArray<T> [#156]
+ * (вероятно похожую на ArrayList)
  */
-public class ArrayWrapper<T> implements Iterator<T> {
+public class ArrayWrapper<T> implements Iterable<T> {
 
-    private Object[] array;
+    private Object[] elementData;
     private int position = 0;
     private int pointer = 0;
 
@@ -23,52 +24,65 @@ public class ArrayWrapper<T> implements Iterator<T> {
      * указанный пользователем
      */
     public ArrayWrapper(int size) {
-        this.array = new Object[size];
+        this.elementData = new Object[size];
     }
 
     /**
      * Если в массиве не хватает места, добавляем объем
      * Размер массива нужно увеличить как минимум в два раза,
      * потому что это тяжелая операция
+     * Упрощенная форма grow() из ArrayList
      */
-    private void addVolumeToArray() {
-        this.array = Arrays.copyOf(this.array, this.array.length * 2);
+    private void grow() {
+        this.elementData = Arrays.copyOf(this.elementData, this.elementData.length * 2);
     }
 
     public void add(T value) {
-        if (position == array.length - 1) {
-            addVolumeToArray();
+        if (position == elementData.length - 1) {
+            grow();
         }
-        array[position++] = value;
+        elementData[position++] = value;
     }
 
     public void set(int index, T value) {
         Objects.checkIndex(index, position);
-        array[index] = value;
+        elementData[index] = value;
     }
 
     public T get(int index) {
         Objects.checkIndex(index, position);
-        return (T) array[index];
+        return (T) elementData[index];
     }
 
     public void remove(int index) {
         Objects.checkIndex(index, position);
-        System.arraycopy(array, index + 1, array, index, array.length - index - 1);
-        array[position - 1] = null;
+        System.arraycopy(elementData, index + 1, elementData, index, elementData.length - index - 1);
+        elementData[position - 1] = null;
         position--;
-        }
-
-    @Override
-    public boolean hasNext() {
-        return pointer < position;
     }
 
+    /**
+     * Iterator<T> iterator();
+     * метод iterator() реализует интерфейс Iterable
+     * переопределяя итератор, в котором, в совю очередь
+     * переопределяются его методы
+     */
     @Override
-    public T next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
-        }
-        return (T) array[pointer++];
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+
+            @Override
+            public boolean hasNext() {
+                return pointer < position;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return (T) elementData[pointer++];
+            }
+        };
     }
 }
