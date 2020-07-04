@@ -16,7 +16,6 @@ public class ArrayWrapper<T> implements Iterable<T> {
 
     private Object[] elementData;
     private int position = 0;
-    private int pointer = 0;
 
     /**
      * Конструктор инициализирует
@@ -70,6 +69,7 @@ public class ArrayWrapper<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+            private int pointer = 0;
 
             @Override
             public boolean hasNext() {

@@ -3,6 +3,8 @@ package arraywrapper;
 import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
+
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class ArrayWrapperTest {
@@ -41,8 +43,9 @@ public class ArrayWrapperTest {
         ArrayWrapper<Integer> intArray = new ArrayWrapper<>(2);
         intArray.add(123);
         intArray.add(456);
-        assertThat(intArray.iterator().next(), is(123));
-        assertThat(intArray.iterator().next(), is(456));
+        Iterator<Integer> iter = intArray.iterator();
+        assertThat(iter.next(), is(123));
+        assertThat(iter.next(), is(456));
 
     }
 
@@ -57,8 +60,9 @@ public class ArrayWrapperTest {
         ArrayWrapper<Integer> intArray = new ArrayWrapper<>(3);
         intArray.add(123);
         intArray.add(456);
-        intArray.iterator().next();
-        intArray.iterator().next();
-        intArray.iterator().next();
+        Iterator<Integer> iter = intArray.iterator();
+        iter.next();
+        iter.next();
+        iter.next();
     }
 }
