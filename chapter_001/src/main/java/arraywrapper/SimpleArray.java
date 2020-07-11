@@ -15,10 +15,14 @@ public class SimpleArray<T> implements Iterable<T> {
 
     /**
      * size - общее количество ненулевых элементов
+     */
+    private int size = 0;
+
+    /**
      * modCount - ConcurrentModification
      * индикатор изменений для итератора
      */
-    private int sizeAndModCount = 0;
+    private int modCount = 0;
 
     public SimpleArray() {
     }
@@ -34,27 +38,30 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public void add(T value) {
-        if (sizeAndModCount == elementData.length - 1) {
+        if (size == elementData.length - 1) {
             grow();
         }
-        elementData[sizeAndModCount++] = value;
+        elementData[size] = value;
+        size++;
+        modCount++;
     }
 
     public void set(int index, T value) {
-        Objects.checkIndex(index, sizeAndModCount);
+        Objects.checkIndex(index, size);
         elementData[index] = value;
     }
 
     public T get(int index) {
-        Objects.checkIndex(index, sizeAndModCount);
+        Objects.checkIndex(index, size);
         return (T) elementData[index];
     }
 
     public void remove(int index) {
-        Objects.checkIndex(index, sizeAndModCount);
+        Objects.checkIndex(index, size);
         System.arraycopy(elementData, index + 1, elementData, index, elementData.length - index - 1);
-        elementData[sizeAndModCount - 1] = null;
-        sizeAndModCount--;
+        elementData[size - 1] = null;
+        size--;
+        modCount++;
     }
 
     /**
@@ -67,10 +74,10 @@ public class SimpleArray<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int cursor = 0;
-            private int expectedModCount = sizeAndModCount;
+            private int expectedModCount = modCount;
 
             private void checkForComodification() {
-                if (expectedModCount != sizeAndModCount) {
+                if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
             }
@@ -78,7 +85,7 @@ public class SimpleArray<T> implements Iterable<T> {
             @Override
             public boolean hasNext() {
                 checkForComodification();
-                return cursor < sizeAndModCount;
+                return cursor < size;
             }
 
             @Override
