@@ -10,22 +10,16 @@ import java.util.*;
  * реализацию fail-fast поведения
  */
 public class SimpleArray<T> implements Iterable<T> {
-
     private Object[] elementData = new Object[1];
-
     /**
      * size - общее количество ненулевых элементов
      */
     private int size = 0;
-
     /**
      * modCount - ConcurrentModification
      * индикатор изменений для итератора
      */
     private int modCount = 0;
-
-    public SimpleArray() {
-    }
 
     /**
      * Если в массиве не хватает места, добавляем объем
