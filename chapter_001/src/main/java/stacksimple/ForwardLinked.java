@@ -8,10 +8,9 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     public void addLast(T value) {
         Node<T> node = new Node<T>(value, null);
-        //если списка нет, созданный элемент будет head
         if (head == null) {
             head = node;
-            return; //аналог break?
+            return;
         }
         Node<T> tail = head;
         while (tail.next != null) {
