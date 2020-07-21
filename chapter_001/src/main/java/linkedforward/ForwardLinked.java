@@ -6,9 +6,12 @@ import java.util.NoSuchElementException;
 public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> head;
 
-    public void add(T value) {
+    /**
+     * подготовка к стеку - метод push
+     *
+     */
+    public void addLast(T value) {
         Node<T> node = new Node<T>(value, null);
-        //если списка нет, созданный элемент будет head
         if (head == null) {
             head = node;
             return; //аналог break?
@@ -20,7 +23,11 @@ public class ForwardLinked<T> implements Iterable<T> {
         tail.next = node;
     }
 
-    public T deleteFirst() {
+    /**
+     * Подгтовка к стеку - метод poll
+     *
+     */
+    public T removeFirst() {
         Node<T> node = head;
         if (node == null) {
             throw new NoSuchElementException();
@@ -28,6 +35,46 @@ public class ForwardLinked<T> implements Iterable<T> {
         head = node.next;
         node.next = null;
         return node.value;
+    }
+
+    /**
+     * Подготовка к стеку - метод pop
+     *
+     */
+    public T removeLast() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+        Node<T> node = head;
+        if (node.next == null) {
+            head = null;
+        }
+        Node<T> prev = node;
+        while (node.next != null) {
+            prev = node;
+            node = node.next;
+        }
+        T result = node.value;
+        prev.next = null;
+        return result;
+    }
+
+    /**
+     * Дополнительное задание
+     * 6. Перевернуть связанный список [#293766]
+     * (односвязный)
+     */
+    public void revert() {
+        Node<T> temp = head;
+        Node<T> previous = null;
+        Node<T> current = null;
+        while (temp != null) {
+            current = temp;
+            temp = temp.next;
+            current.next = previous;
+            previous = current;
+            head = current;
+        }
     }
 
     @Override

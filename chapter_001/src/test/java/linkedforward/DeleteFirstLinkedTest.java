@@ -17,23 +17,23 @@ public class DeleteFirstLinkedTest {
     @Test(expected = NoSuchElementException.class)
     public void whenDeleteFirst() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
-        linked.add(1);
-        linked.deleteFirst();
+        linked.addLast(1);
+        linked.removeFirst();
         linked.iterator().next();
     }
 
     @Test(expected = NoSuchElementException.class)
     public void whenDeleteEmptyLinked() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
-        linked.deleteFirst();
+        linked.removeFirst();
     }
 
     @Test
     public void whenMultiDelete() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
-        linked.add(1);
-        linked.add(2);
-        linked.deleteFirst();
+        linked.addLast(1);
+        linked.addLast(2);
+        linked.removeFirst();
         Iterator<Integer> it = linked.iterator();
         assertThat(it.next(), is(2));
     }
