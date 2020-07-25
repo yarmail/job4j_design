@@ -2,29 +2,15 @@ package setsimple;
 
 import arraywrapper.SimpleArray;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleSet<T> implements Iterable<T> {
     private SimpleArray<T> simpleArrayList = new SimpleArray<>();
 
-    /**
-     * Проверки
-     * на null в коллекции
-     * на null элемент
-     * на одинаковые элементы
-     *
-     */
     private boolean check(T value) {
         boolean result = false;
         for (T i : simpleArrayList) {
-            if (value == null) {
-                result = true;
-                break;
-            }
-            if (i == null) {
-                result = true;
-                break;
-            }
-            if (i.equals(value)) {
+            if (Objects.equals(i, value)) {
                 result = true;
                 break;
             }
@@ -37,7 +23,6 @@ public class SimpleSet<T> implements Iterable<T> {
             simpleArrayList.add(value);
         }
     }
-
 
     @Override
     public  Iterator<T> iterator() {
