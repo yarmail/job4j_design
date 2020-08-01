@@ -2,16 +2,16 @@ package map;
 
 
 /**
- * В этой модели не переопределяем hashcode и equals
+ * В этой модели НЕ переопределяем hashcode и equals
  * смотрим результат в тесте
  *
  */
 
-public class UserOne {
+public class UserA {
 
     private String name;
 
-    public UserOne(String name) {
+    public UserA(String name) {
         this.name = name;
     }
 }
