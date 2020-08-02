@@ -3,6 +3,7 @@ package map;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class UserTest {
@@ -90,6 +91,7 @@ public class UserTest {
      * Таким образом, при укладке в map println показывает
      * 2 объекта, а не затирает один другим
      */
+    @Ignore // см ограничения по классу UserC
     @Test
     public void userCTest() {
         UserC first = new UserC("Petr");
@@ -104,5 +106,34 @@ public class UserTest {
         map.put(first, "first");
         map.put(second, "second");
         System.out.println(map); // {map.UserC@17d99928=second, map.UserC@3aa9e816=first}
+    }
+
+    /**
+     * В этом примере переопределяем equals и hashcode
+     * на примере класса UserD и наблюдаем результаты
+     * И equals и hashcode показывают равенство ключей
+     *
+     * В результате мы видим, что при добавлении в маp - второй
+     * ключ заменил первый и остался там один.
+     *
+     * Общий вывод: внимательно, аккуратно и правильно работать c equals
+     * и hashcode объектов, во многих случаях (например hashmap)
+     * требуется переопределение и того и другого для правильной
+     * работы по сравнению.
+     */
+    @Test
+    public void userDTest() {
+        UserD first = new UserD("Petr");
+        UserD second = new UserD("Petr");
+        System.out.println(first); // map.UserD@25e772
+        System.out.println(second); // map.UserD@25e772
+        System.out.println(first.hashCode()); //2484082
+        System.out.println(second.hashCode()); //2484082
+        System.out.println(first.equals(second)); //true
+
+        Map<UserD, String> map = new HashMap<>();
+        map.put(first, "first");
+        map.put(second, "second");
+        System.out.println(map); // {map.UserD@25e772=second}
     }
 }
