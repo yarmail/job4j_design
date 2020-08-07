@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * В этом примере переопределяем equals и hashcode
+ * 5. Перекрывать и equals и hashCode [#293787]
  */
 public class UserD {
     private String name;
@@ -14,8 +15,12 @@ public class UserD {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UserD)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof UserD)) {
+            return false;
+        }
         UserD userD = (UserD) o;
         return Objects.equals(name, userD.name);
     }
