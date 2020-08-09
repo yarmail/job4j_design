@@ -23,7 +23,7 @@ import java.util.*;
  * то возвращать false.
  *
  */
-public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node> {
+public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node<K, V>> {
     /**
      * Начальный массив должен быть степенью двойки
      */
@@ -61,18 +61,16 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node> {
      */
     private transient int modCount = 0;
 
-/////////////////////////////////////////  основные действия над массивом
-
     /**
      * Вставка объекта
      * В данном случае, если возникает коллизия, просто возвращаем false
      */
     public boolean insert(K key, V value) {
         boolean result = false;
-        if (size + 1 >= threshold) {
+        if (size >= threshold) {
             grow();
         }
-        int index = indexFor(hash(key));
+        int index = indexFor(hashKey(key));
         if (hashTable[index] == null) {
             hashTable[index] = new Node<>(key, value);
             result = true;
@@ -82,31 +80,58 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node> {
         return result;
     }
 
+    /**
+     *
+     * Примечание: В методе get(), NPE падает,
+     * потому что вы вызываете key, у null.
+     * Нужно предварительно делать проверку на null
+     *
+     */
     public V get(K key) {
-        int index = indexFor(hash(key));
-        return Objects.equals(hashTable[index].key, key) ? hashTable[index].value : null;
-    }
-
-    public boolean delete(K key) {
-        boolean result = false;
-        int index = indexFor(hash(key));
-        if (Objects.equals(hashTable[index].key, key)) {
-            hashTable[index] = null;
-            size--;
-            modCount++;
-            result = true;
+        int index;
+        V result = null;
+        if (key != null) {
+            index = indexFor(hashKey(key));
+            if (hashTable[index] != null && key == hashTable[index].key) {
+                result = hashTable[index].value;
+            }
         }
         return result;
     }
 
-//////////////////////////////////////// вспомогательные методы
+    public boolean delete(K key) {
+        int index;
+        boolean result = false;
+        if (key != null) {
+            index = indexFor(hashKey(key));
+            if (hashTable[index] != null && key == hashTable[index].key) {
+                hashTable[index] = null;
+                size--;
+                modCount++;
+                result = true;
+            }
+        }
+        return result;
+    }
 
     /**
      * Расширение массива по необходимости в 2 раза
-     * Упрощенная форма grow() из ArrayList
+     * При этом нужно учесть, что потребуется
+     * новое перераспределение всех элементов
+     * по массиву новой длины
      */
     private void grow() {
-        this.hashTable = Arrays.copyOf(this.hashTable, this.hashTable.length * 2);
+        Node<K, V>[] oldHashTable = hashTable;
+        int oldSize = oldHashTable.length;
+        hashTable = new Node[oldSize * 2];
+
+        for (int i = 0; i < oldSize; i++) {
+            if (oldHashTable[i] != null) {
+                K key = oldHashTable[i].getKey();
+                int indexNew = indexFor(hashKey(key));
+                hashTable [indexNew] = oldHashTable[i];
+            }
+        }
     }
 
     /**
@@ -120,20 +145,30 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node> {
      * Метод для работы с ключом, который позволяет сделать довольно редкий hash
      * Здесь hashcode берется почему-то java.lang.object
      */
-    private int hash(K key) {
-        int h = key.hashCode();
-        return (key == null) ? 0 : h  ^ (h >>> 16);
+    private int hashKey(K key) {
+        int h;
+        if (key == null) {
+            h = 0;
+        } else {
+            h = key.hashCode();
+            h = h ^ (h >>> 16);
+        }
+        return h;
     }
 
 /////////////////////////////////////////////// Структура узла
 
     public static class Node<K, V> {
-        final K key;
-        V value;
+        private final K key;
+        private V value;
 
         public Node(K key, V value) {
             this.key = key;
             this.value = value;
+        }
+
+        public K getKey() {
+            return key;
         }
 
         @Override
@@ -167,8 +202,8 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node> {
 /////////////////////////////////////// Итератор
 
     @Override
-    public Iterator<Node> iterator() {
-        return new Iterator<Node>() {
+    public Iterator<Node<K, V>> iterator() {
+        return new Iterator<Node<K, V>>() {
             private int cursor = 0;
             private int expectedModCount = modCount;
 
@@ -181,11 +216,15 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node> {
             @Override
             public boolean hasNext() {
                 checkForComodification();
-                return cursor < size;
+                while (hashTable[cursor] == null
+                        && cursor < hashTable.length - 1) {
+                    cursor++;
+                }
+                return hashTable[cursor] != null;
             }
 
             @Override
-            public Node next() {
+            public Node<K, V> next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
