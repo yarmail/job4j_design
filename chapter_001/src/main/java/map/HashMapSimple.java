@@ -92,7 +92,8 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node<K, V>> {
         V result = null;
         if (key != null) {
             index = indexFor(hashKey(key));
-            if (hashTable[index] != null && key == hashTable[index].key) {
+            if (hashTable[index] != null
+                    && Objects.equals(key, hashTable[index].key)) {
                 result = hashTable[index].value;
             }
         }
@@ -104,7 +105,8 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node<K, V>> {
         boolean result = false;
         if (key != null) {
             index = indexFor(hashKey(key));
-            if (hashTable[index] != null && key == hashTable[index].key) {
+            if (hashTable[index] != null
+                    && Objects.equals(key, hashTable[index].key)) {
                 hashTable[index] = null;
                 size--;
                 modCount++;
@@ -124,6 +126,7 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node<K, V>> {
         Node<K, V>[] oldHashTable = hashTable;
         int oldSize = oldHashTable.length;
         hashTable = new Node[oldSize * 2];
+        threshold = hashTable.length * LOAD_FACTOR;
 
         for (int i = 0; i < oldSize; i++) {
             if (oldHashTable[i] != null) {
