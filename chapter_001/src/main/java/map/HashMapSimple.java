@@ -206,7 +206,7 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node<K, V>> {
 
     @Override
     public Iterator<Node<K, V>> iterator() {
-        return new Iterator<Node<K, V>>() {
+        return new Iterator<>() {
             private int cursor = 0;
             private int expectedModCount = modCount;
 
