@@ -1,9 +1,7 @@
 package analizechange;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Analize {
 
@@ -13,39 +11,28 @@ public class Analize {
     public Info diff(List<User> previous, List<User> current) {
 
         Info result = new Info();
-        Map<Integer, String> prevMap = new HashMap<>();
-        Map<Integer, String> currMap = new HashMap<>();
+        Map<Integer, String> currMap = current.stream()
+                .collect(Collectors.toMap(User::getId, User::getName));
 
-        for (User user : previous) {
-            prevMap.put(user.getId(), user.getName());
-        }
-        for (User user : current) {
-            currMap.put(user.getId(), user.getName());
-        }
-
-        Iterator<Map.Entry<Integer, String>> iterator = prevMap.entrySet().iterator();
-
-        while (iterator.hasNext()) {
-            Map.Entry<Integer, String> pair = iterator.next();
-            Object key = pair.getKey();
-            Object value = pair.getValue();
-            //все одинаковые удаляем
+        for (User user: previous) {
+            var key = user.getId();
+            var value = user.getName();
+            // 1) если во втором списке нет ключа, как в первом, значит он был Удаленный
+            if (!currMap.containsKey(key)) {
+                result.setDeleted(result.getDeleted() + 1);
+            }
+            // 2) удалем все одинаковые из второго списка, оставшиеся, там будут Добавленными
             if (currMap.containsKey(key)
                     && currMap.containsValue(value)) {
-                iterator.remove();
                 currMap.remove(key);
             }
-            //все измененные тоже удаляем и отмечаем как измененные
+            // 3) все измененные тоже удаляем и отмечаем как измененные
             if (currMap.containsKey(key)
                     && !currMap.containsValue(value)) {
-                iterator.remove();
                 currMap.remove(key);
                 result.setChanged(result.getChanged() + 1);
             }
         }
-        // те, которые остались в prev - Удаленные
-        result.setDeleted(prevMap.size());
-
         // те, которые остались в сurr - Добавленные
         result.setAdded(currMap.size());
         return result;
