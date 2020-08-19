@@ -23,17 +23,19 @@ public class Analize {
             }
             // 2) удалем все одинаковые из второго списка, оставшиеся, там будут Добавленными
             if (currMap.containsKey(key)
-                    && currMap.containsValue(value)) {
+                    && Objects.equals(currMap.get(key), value)) {
                 currMap.remove(key);
             }
-            // 3) все измененные тоже удаляем и отмечаем как измененные
+            // 3) все измененные тоже удаляем и отмечаем как Измененные
+            // (если ключ есть в мапе и значения разные по этому ключу, то значит было изменение.)
             if (currMap.containsKey(key)
-                    && !currMap.containsValue(value)) {
+                    && !Objects.equals(currMap.get(key), value)) {
                 currMap.remove(key);
                 result.setChanged(result.getChanged() + 1);
             }
         }
         // те, которые остались в сurr - Добавленные
+        // другой вариант int added = current.size() + deleted - previous.size()
         result.setAdded(currMap.size());
         return result;
     }
