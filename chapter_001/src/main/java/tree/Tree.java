@@ -1,9 +1,9 @@
 package tree;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 class Tree<E> implements TreeSimple<E> {
     private final Node<E> root;
@@ -25,14 +25,17 @@ class Tree<E> implements TreeSimple<E> {
         return rsl;
     }
 
-    @Override
-    public Optional<Node<E>> findBy(E value) {
+    /**
+     * Для выполнения принципа DRY избавляемся от дублирования
+     * кода в методах findBy(), isBinary()
+     */
+    private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
         Optional<Node<E>> rsl = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
+        data.offer(this.root); // добавляет в очередь или возвращает false
         while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (el.value.equals(value)) {
+            Node<E> el = data.poll(); // берет первый элемент очереди
+            if (condition.test(el)) { // логика остается, условия меняются в методах
                 rsl = Optional.of(el);
                 break;
             }
@@ -40,28 +43,19 @@ class Tree<E> implements TreeSimple<E> {
         }
         return rsl;
     }
+
+    @Override
+    public Optional<Node<E>> findBy(E value) {
+        return findByPredicate(node -> node.value.equals(value));
+    }
+
     /**
-     * Определяет бинарность дерева
-     * Если дочерних элементов <=2
-     * дерево бинарное
-     *
-     * признак бинарного дерева
+     * Дерево является бинарным, если у всех узлов не более двух потоков.
+     * Решить эту задачу лучше от обратного, т.е. мы предполагаем,
+     * что в дереве есть узел, у которого больше 2 потомков и
+     * проверяем, что он не существует
      */
     public boolean isBinary() {
-        boolean rsl = true;
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            List<Node<E>> children = el.getChildren();
-            if (children.size() > 2) {
-                rsl = false;
-                break;
-            }
-            for (Node<E> child : children) {
-                data.offer(child);
-            }
-        }
-        return rsl;
+        return findByPredicate(node -> node.children.size() > 2).isEmpty();
     }
 }
