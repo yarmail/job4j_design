@@ -4,11 +4,37 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Analize {
-
     /**
-     * Предполагаем, что id уникальны
+     * Способ 1
      */
     public Info diff(List<User> previous, List<User> current) {
+
+        Info result = new Info();
+        Map<Integer, String> currMap = current.stream()
+                .collect(Collectors.toMap(User::getId, User::getName));
+        for (User user: previous) {
+            var key = user.getId();
+            var value = user.getName();
+            String valueMap = currMap.remove(key);
+            // Удаленные
+            if (valueMap == null) {
+                result.setDeleted(result.getDeleted() + 1);
+            }
+            // Измененнные
+            if (valueMap != null && valueMap != value) {
+                result.setChanged(result.getChanged() + 1);
+            }
+        }
+        // те, которые остались в сurr - Добавленные
+        // другой вариант int added = current.size() + deleted - previous.size()
+        result.setAdded(currMap.size());
+        return result;
+    }
+
+    /**
+     * Способ 2
+     */
+    public Info diffAnother(List<User> previous, List<User> current) {
 
         Info result = new Info();
         Map<Integer, String> currMap = current.stream()
