@@ -1,57 +1,36 @@
 package email;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
+import java.util.*;
+
 
 public class Process {
 
-    private ArrayList<User> dest = new ArrayList<>(0);
-
-    public ArrayList<User> process(ArrayList<User> source) {
-        if (source != null) {
-            dest = process2(source);
-        }
-        return dest;
-    }
-
-    private ArrayList<User> process2(ArrayList<User> source) {
-            for (int i = 0; i < source.size(); i++) {
-                    User userSource = source.get(i);
-                    TreeSet<String> emailsSource = userSource.getEmails();
-                    boolean originalEmailsSource = true;
-                    for (String email:emailsSource) {
-                        int findEmail = findEmail(email);
-                        if (findEmail != -1) {
-                            User userDest = dest.get(findEmail);
-                            TreeSet<String> emailsDest = userDest.getEmails();
-                            emailsDest.addAll(emailsSource);
-                            userDest.setEmails(emailsDest);
-                            originalEmailsSource = false;
-                            break;
-                        }
-                    }
-                    if (originalEmailsSource) {
-                        dest.add(userSource);
-                    }
-            }
-            dest.trimToSize();
-        return dest;
-    }
-
-    /**
-     * find email in Dest
-     * @return index of User
-     */
-    private int findEmail(String email) {
-        int result = -1;
-        for (int i = 0; i < dest.size(); i++) {
-            User userDest = dest.get(i);
-            TreeSet emailsDest = userDest.getEmails();
-            if (emailsDest.contains(email)) {
-                result = i;
-                break;
+    public Map<String, TreeSet<String>> process(ArrayList<User> source) {
+        Map<String, String> tempMap = new HashMap<>();
+        for (int i = 0; i < source.size(); i++) {
+            User user = source.get(i);
+            String name = user.getName();
+            TreeSet<String> emails = user.getEmails();
+            for (String email : emails) {
+                tempMap.put(email, name);
             }
         }
-    return result;
+        Map<String, TreeSet<String>> resultMap = new HashMap<>();
+        Iterator<String> itr = tempMap.keySet().iterator();
+        while (itr.hasNext()) {
+            String email = itr.next();
+            String name = tempMap.get(email);
+            if (!resultMap.containsKey(name)) {
+                TreeSet<String> emails = new TreeSet<>();
+                emails.add(email);
+                resultMap.put(name, emails);
+            }
+            if (resultMap.containsKey(name)) {
+                TreeSet<String> emails = resultMap.get(name);
+                emails.add(email);
+                resultMap.put(name, emails);
+            }
+        }
+        return resultMap;
     }
 }

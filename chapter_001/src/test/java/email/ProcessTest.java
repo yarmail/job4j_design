@@ -1,8 +1,6 @@
 package email;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.junit.Test;
 import static org.junit.Assert.assertThat;
@@ -21,7 +19,8 @@ public class ProcessTest {
         User user5 = new User("user5", new TreeSet<>(Arrays.asList("xyz@pisem.net")));
         ArrayList<User> sourceList = new ArrayList<>(Arrays.asList(user1, user2, user3, user4, user5));
         Process classProcess = new Process();
-        ArrayList<User> destList = new ArrayList<>(classProcess.process(sourceList));
-        assertThat(destList.size(), is(2));
+        Map<String, TreeSet<String>> dest = new HashMap<>(classProcess.process(sourceList));
+        System.out.println(dest);
+        assertThat(dest.size(), is(2));
     }
 }

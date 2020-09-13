@@ -15,15 +15,7 @@ public class User {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public TreeSet<String> getEmails() {
         return emails;
-    }
-
-    public void setEmails(TreeSet<String> emails) {
-        this.emails = emails;
     }
 }
