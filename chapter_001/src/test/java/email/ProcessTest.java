@@ -12,15 +12,20 @@ public class ProcessTest {
      */
     @Test
     public void processTest() {
-        User user1 = new User("user1", new TreeSet<>(Arrays.asList("xxx@ya.ru", "foo@gmail.com", "lol@mail.ru")));
-        User user2 = new User("user2", new TreeSet<>(Arrays.asList("foo@gmail.com", "ups@pisem.net")));
-        User user3 = new User("user3", new TreeSet<>(Arrays.asList("xyz@pisem.net", "vasya@pupkin.com")));
-        User user4 = new User("user4", new TreeSet<>(Arrays.asList("ups@pisem.net", "aaa@bbb.ru")));
-        User user5 = new User("user5", new TreeSet<>(Arrays.asList("xyz@pisem.net")));
-        ArrayList<User> sourceList = new ArrayList<>(Arrays.asList(user1, user2, user3, user4, user5));
-        Process classProcess = new Process();
-        Map<String, TreeSet<String>> dest = new HashMap<>(classProcess.process(sourceList));
-        System.out.println(dest);
+        Map<String, TreeSet<String>> source = new HashMap<>();
+        source.put("user1", new TreeSet<>(Arrays.asList("xxx@ya.ru", "foo@gmail.com", "lol@mail.ru")));
+        source.put("user2", new TreeSet<>(Arrays.asList("foo@gmail.com", "ups@pisem.net")));
+        source.put("user3", new TreeSet<>(Arrays.asList("xyz@pisem.net", "vasya@pupkin.com")));
+        source.put("user4", new TreeSet<>(Arrays.asList("ups@pisem.net", "aaa@bbb.ru")));
+        source.put("user5", new TreeSet<>(Arrays.asList("xyz@pisem.net")));
+
+        Process run = new Process();
+        Map<String, TreeSet<String>> dest = new HashMap<>(run.getResult(source));
+
+        for (String name : dest.keySet()) {
+            System.out.println(name + ":" + dest.get(name).toString());
+        }
+
         assertThat(dest.size(), is(2));
     }
 }

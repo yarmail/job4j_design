@@ -30,4 +30,17 @@ package email;
  * Возможный ответ на задачу в указанном примере:
  * user1 ->xxx@ya.ru,foo@gmail.com,lol@mail.ru,ups@pisem.net,aaa@bbb.ru
  * user3 ->xyz@pisem.net,vasya@pupkin.com
+ *
+ * ==============================================================
+ */
+
+/**
+ * Промежуточная таблица выглядит так:
+ * {aaa@bbb.ru=[user4],
+ * ups@pisem.net=[user2, user4],
+ * lol@mail.ru=[user1],
+ * xxx@ya.ru=[user1],
+ * vasya@pupkin.com=[user3],
+ * foo@gmail.com=[user1, user2],
+ * xyz@pisem.net=[user3, user5]}
  */
