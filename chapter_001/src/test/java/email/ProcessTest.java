@@ -12,15 +12,15 @@ public class ProcessTest {
      */
     @Test
     public void processTest() {
-        Map<String, TreeSet<String>> source = new HashMap<>();
-        source.put("user1", new TreeSet<>(Arrays.asList("xxx@ya.ru", "foo@gmail.com", "lol@mail.ru")));
-        source.put("user2", new TreeSet<>(Arrays.asList("foo@gmail.com", "ups@pisem.net")));
-        source.put("user3", new TreeSet<>(Arrays.asList("xyz@pisem.net", "vasya@pupkin.com")));
-        source.put("user4", new TreeSet<>(Arrays.asList("ups@pisem.net", "aaa@bbb.ru")));
-        source.put("user5", new TreeSet<>(Arrays.asList("xyz@pisem.net")));
+        Map<String, HashSet<String>> source = new HashMap<>();
+        source.put("user1", new HashSet<>(Arrays.asList("xxx@ya.ru", "foo@gmail.com", "lol@mail.ru")));
+        source.put("user2", new HashSet<>(Arrays.asList("foo@gmail.com", "ups@pisem.net")));
+        source.put("user3", new HashSet<>(Arrays.asList("xyz@pisem.net", "vasya@pupkin.com")));
+        source.put("user4", new HashSet<>(Arrays.asList("ups@pisem.net", "aaa@bbb.ru")));
+        source.put("user5", new HashSet<>(Arrays.asList("xyz@pisem.net")));
 
         Process run = new Process();
-        Map<String, TreeSet<String>> dest = new HashMap<>(run.getResult(source));
+        Map<String, HashSet<String>> dest = new HashMap<>(run.getResult(source));
 
         for (String name : dest.keySet()) {
             System.out.println(name + ":" + dest.get(name).toString());
