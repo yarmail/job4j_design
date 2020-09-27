@@ -1,7 +1,6 @@
 package fileinputstream;
 
 /**
- *
  * 0.2. FileInputStream [#293819]
  * В этом уроке мы узнаем, как в Java прочитать файл.
  *
@@ -15,6 +14,9 @@ package fileinputstream;
  * password=password
  * url=url
  *
+ * ПРИМЕЧАНИЕ: Этот код читает файл по одному байту.
+ * Такой подход медленный.
+ * Быстрее через BufferedReader
  * =====================
  *
  * Задание
