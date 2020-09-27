@@ -1,4 +1,4 @@
-package fileOutputStream;
+package fileoutputstream;
 
 import org.junit.Ignore;
 import org.junit.Test;

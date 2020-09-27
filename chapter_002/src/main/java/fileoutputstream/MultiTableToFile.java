@@ -1,4 +1,4 @@
-package fileOutputStream;
+package fileoutputstream;
 
 import java.io.FileOutputStream;
 
@@ -23,12 +23,12 @@ public class MultiTableToFile {
 
     /**
      * расчет таблицы умножения для заданного числа
-     * и перевод построчно в буфер
+     * и перевод в буфер
      *
      * @return
      */
     private static String multiple(int size) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 sb.append (((i + 1) * (j + 1)) + " ");

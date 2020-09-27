@@ -1,4 +1,4 @@
-package fileOutputStream;
+package fileoutputstream;
 
 /**
  *
