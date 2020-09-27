@@ -17,12 +17,16 @@ public class ReadFile {
      * for (String line : lines) {
      *     System.out.println(line);
      * }
+     * Программа заработала, поле выполнения
+     * задачи уберу лишний текстовый файл input.txt
+     * (описание в package-info)
+     *
      */
     public static void main(String[] args) {
         try (FileInputStream in = new FileInputStream("input.txt")) {
             StringBuilder text = new StringBuilder();
             int read;
-            while ((read = in.read()) != 1) {
+            while ((read = in.read()) != -1) {
                 text.append((char) read);
             }
             System.out.println(text);
