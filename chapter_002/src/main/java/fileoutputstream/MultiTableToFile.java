@@ -31,7 +31,7 @@ public class MultiTableToFile {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                sb.append (((i + 1) * (j + 1)) + " ");
+                sb.append(((i + 1) * (j + 1)) + " ");
             }
             sb.append("\n");
         }
