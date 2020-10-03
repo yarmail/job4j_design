@@ -13,7 +13,7 @@ public class ResultFile {
         try (PrintWriter out = new PrintWriter(
                 //Это буфер, который собираем переданные в него байты
                 new BufferedOutputStream(
-                        new FileOutputStream("result.txt")
+                        new FileOutputStream("./chapter_002/src/main/java/bufferedoutputstream/result.txt")
                 ))) {
             //Запись можно производить целыми строками.
             out.write("Hello, world!");
