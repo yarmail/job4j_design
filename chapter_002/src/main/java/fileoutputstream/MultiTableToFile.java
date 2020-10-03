@@ -14,7 +14,7 @@ public class MultiTableToFile {
      */
     public static void writeToFile(int size) {
         String str = multiple(size);
-        try (FileOutputStream out = new FileOutputStream("result.txt")) {
+        try (FileOutputStream out = new FileOutputStream("../chapter_002/src/main/java/fileoutputstream/result.txt")) {
             out.write(str.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
