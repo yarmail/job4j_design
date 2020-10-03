@@ -40,7 +40,7 @@ public class LogFilter {
     }
 
     public static void main(String[] args) {
-        List<String> log = filter("log.txt");
-        save(log, "404.txt");
+        List<String> log = filter("./chapter_002/src/main/java/bufferedoutputstream/log.txt");
+        save(log, "./chapter_002/src/main/java/bufferedoutputstream/404.txt");
     }
 }
