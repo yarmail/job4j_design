@@ -22,6 +22,7 @@ public class ReadConfig {
     /**
      * Реализуйте метод load по аналогии с методом toString.
      * Метод load должен загружать пару ключ-значение в Map values.
+     * (За исключением знака "=")
      */
     public void load() {
         StringJoiner out = new StringJoiner(System.lineSeparator());
@@ -33,7 +34,7 @@ public class ReadConfig {
                     int indexSymbol = line.indexOf("=");
                     int length = line.length();
                     String key = line.substring(0, indexSymbol);
-                    String value = line.substring(indexSymbol, length-1);
+                    String value = line.substring(indexSymbol + 1, length);
                     this.map.put(key, value);
                 }
             }
@@ -50,7 +51,7 @@ public class ReadConfig {
         return map.get(key);
     }
 
-/*  пока не очень понял, зачем переопределять toString()
+/*
     public String toString() {
         //  к каждой считываемой строке добавляет разделитель ?
         StringJoiner out = new StringJoiner(System.lineSeparator());
