@@ -6,6 +6,7 @@ public class Dir {
 
     public static void main(String[] args) {
         // в данном случае file  это директория
+        // в качестве параметра можно также указать например "."
         File file = new File("c:\\projects");
         // Существует?
         if (!file.exists()) {
