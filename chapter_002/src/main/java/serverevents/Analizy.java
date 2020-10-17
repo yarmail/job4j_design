@@ -11,6 +11,9 @@ public class Analizy {
     /**
      *  Метод unavailable должен находить диапазоны,
      *  когда сервер не работал.
+     *
+     *  Более правильным будет использование метода split
+     *  String[] words = str.split(" ");
      */
     public static void main(String[] args) {
         unavailable();
