@@ -13,5 +13,6 @@ public class ListProgArgs {
         for (int i = 0; i < args.length; i++) {
             System.out.println(args[i]);
         }
+        // Arrays.stream(args).forEach(System.out::println);
     }
 }
