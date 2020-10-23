@@ -54,6 +54,9 @@ public class Zip {
      * args[4] = "-e=txt"
      * args[5] = "-o=./chapter_002/src/main/java/zipproject/chapter_002.zip"
      *
+     *  ПРИМЕЧАНИЕ: Пока не удалось решить следующий вопрос
+     *  имя папки внутри архива отображается как ./chapter_002
+     *  Пока не знаю как это исправить
      */
     public static void main(String[] args) throws IOException {
 
