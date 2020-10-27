@@ -25,7 +25,7 @@ public class ConsoleChat {
      * @param pathSrc - это файл с ответами бота
      * @param pathDest - это файл с записью диалога обоих сторон
      */
-    public ConsoleChat(String pathSrc, String pathDest) {
+    private ConsoleChat(String pathSrc, String pathDest) {
         this.pathSrc = pathSrc;
         this.pathDest = pathDest;
     }
@@ -35,7 +35,7 @@ public class ConsoleChat {
      * PrintStream console = System.out;
      * System.setOut(console);
      */
-    public void run() throws IOException {
+    private void run() throws IOException {
         Scanner input = new Scanner(System.in);
         String userAnswer = "";
         List<String> botAnswerList = Files.readAllLines(Paths.get(pathSrc));
@@ -56,16 +56,12 @@ public class ConsoleChat {
                 }
             }
         }
-        if (userAnswer.equals(OUT)) {
-            dialogList.add(userAnswer);
-            writeDataInFile(pathDest, dialogList);
-            // для проверки
-            System.out.println("Проверка содержимого файла назначения");
-            List<String> check = Files.readAllLines(Paths.get(pathDest));
-            check.forEach(System.out::println);
-        }
+        writeDataInFile(pathDest, dialogList);
+        // для проверки
+        System.out.println("Проверка содержимого файла назначения");
+        List<String> check = Files.readAllLines(Paths.get(pathDest));
+        check.forEach(System.out::println);
     }
-
     /**
      * tempDir - Создаем временную директорию для наших файлов
      * Получилось что-то вроде
@@ -97,26 +93,20 @@ public class ConsoleChat {
         deleteAll = Files.deleteIfExists(Paths.get(pathDest));
         deleteAll = Files.deleteIfExists(tempDir);
     }
-
     /**
-     * Метод поможет в 2- случаях,
+     * Метод поможет в 2-х случаях,
      * 1) создать файл с ответами
      * 2) записать весь диалог в виде List в файл dest.txt
      *
-     * по пока непонятной причине FileWriter и bufferedWriter.write
-     * потребовали обернуть их в try catch c IOException
-     * Пока не пойму как упростить
+     *  Чтобы избавиться от вложенного try-catch замените foreach на for.
+     *  В лямбдах не должно быть проверяемых исключений
      */
-    public static void writeDataInFile(String path, List<String> strings) {
+    private static void writeDataInFile(String path, List<String> strings) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(
                 new FileWriter(path, Charset.forName("UTF-8"), true))) {
-            strings.forEach(value -> {
-                try {
-                    bufferedWriter.write(value + System.lineSeparator());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            for (String str: strings) {
+                bufferedWriter.write(str + System.lineSeparator());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
