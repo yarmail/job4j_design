@@ -35,11 +35,6 @@ import java.net.Socket;
  *
  * Пример запроса для браузера:
  * http://localhost:9000/?msg=MSG
- *
- *
- *
- *
- *
  */
 public class EchoServerB {
     public static void main(String[] args) throws IOException {
