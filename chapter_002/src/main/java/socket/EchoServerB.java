@@ -41,6 +41,9 @@ import java.util.stream.Stream;
  * Примечание - от хрома последовательно поступают 2 запроса вместо одного
  * GET /?msg=msg HTTP/1.1
  * GET /favicon.ico HTTP/1.1
+ *
+ * Для ответа браузеру важно количество r и n. Пока не заю почему
+ * out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
  */
 public class EchoServerB {
     public static void main(String[] args) throws IOException {
@@ -53,7 +56,7 @@ public class EchoServerB {
                              new InputStreamReader(socket.getInputStream()))) {
                     String str = in.readLine();
                     // смотрим, что пришло
-                    System.out.println("Поступило" + System.lineSeparator() + str);
+                    System.out.println("Поступило от клиента:"  + str);
                     // фильтруем из ответа клиента нужный кусок "/?msg=MSG"
                     if (!str.isEmpty()) {
                         str = Stream.of(str.split(" "))
@@ -68,10 +71,10 @@ public class EchoServerB {
                         str = arrStr[1];
                         if (str.equals("Exit")) {
                             work = false;
-                            out.write("HTTP/1.1 200 OK\r\n".getBytes());
+                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                             out.write("Exit".getBytes());
                         } else {
-                            out.write("HTTP/1.1 200 OK\r\n".getBytes());
+                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                             out.write(str.getBytes());
                         }
                     }
