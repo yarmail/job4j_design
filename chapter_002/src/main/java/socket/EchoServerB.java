@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 
 /**
@@ -35,6 +37,10 @@ import java.net.Socket;
  *
  * Пример запроса для браузера:
  * http://localhost:9000/?msg=MSG
+ *
+ * Примечание - от хрома последовательно поступают 2 запроса вместо одного
+ * GET /?msg=msg HTTP/1.1
+ * GET /favicon.ico HTTP/1.1
  */
 public class EchoServerB {
     public static void main(String[] args) throws IOException {
@@ -45,14 +51,21 @@ public class EchoServerB {
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
-                    // сообщение в строку попадает в виде "GET /?msg=Hello HTTP/1.1"
                     String str = in.readLine();
-                    System.out.println(str);
+                    // смотрим, что пришло
+                    System.out.println("Поступило" + System.lineSeparator() + str);
+                    // фильтруем из ответа клиента нужный кусок "/?msg=MSG"
                     if (!str.isEmpty()) {
-                        String[] arrSrt = str.split("=");
-                        str = arrSrt[1];
-                        arrSrt = str.split(" ");
-                        str = arrSrt[0];
+                        str = Stream.of(str.split(" "))
+                                .filter(s -> s.contains("msg"))
+                                .findFirst()
+                                .orElse("");
+                    }
+                    // проверяем что получилось
+                    System.out.println("Отфильтровано фильтром для msg: " + str);
+                    if (!str.isEmpty()) {
+                        String[] arrStr = str.split("=");
+                        str = arrStr[1];
                         if (str.equals("Exit")) {
                             work = false;
                             out.write("HTTP/1.1 200 OK\r\n".getBytes());
