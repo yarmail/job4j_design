@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 
@@ -48,8 +47,7 @@ import java.util.stream.Stream;
 public class EchoServerB {
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
-            boolean work = true;
-            while (work) {
+            while (true) {
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
@@ -69,13 +67,9 @@ public class EchoServerB {
                     if (!str.isEmpty()) {
                         String[] arrStr = str.split("=");
                         str = arrStr[1];
+                        out.write("HTTP/1.1 200 OK\r\n\r\n".concat(str).getBytes());
                         if (str.equals("Exit")) {
-                            work = false;
-                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                            out.write("Exit".getBytes());
-                        } else {
-                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                            out.write(str.getBytes());
+                            break;
                         }
                     }
                 }
