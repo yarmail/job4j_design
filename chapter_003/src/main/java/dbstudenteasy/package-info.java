@@ -1,4 +1,4 @@
-package aa_db_student_easy;
+package dbstudenteasy;
 /**
  * Задание по теме: 0. Видео [#293744]
  * 1. Создайте отдельную базу данных
