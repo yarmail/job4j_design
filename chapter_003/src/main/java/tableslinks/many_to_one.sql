@@ -6,8 +6,8 @@
 
 /*
 CREATE TABLE position (
-                        id SERIAL PRIMARY KEY,
-                        name VARCHAR(255)
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255)
 );
 --*/
 
@@ -17,10 +17,10 @@ CREATE TABLE position (
 
 /*
 CREATE TABLE employees (
-                           id SERIAL PRIMARY KEY,
-                           name VARCHAR(255),
-                           position_id INT REFERENCES position(id)
-  );
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  position_id INT REFERENCES position(id)
+);
 --*/
 
 ------------------------
