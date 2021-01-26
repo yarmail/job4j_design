@@ -27,7 +27,8 @@ insert into employees(name, position_id) values ('Pers', 3);
 
 insert into employees(name) values ('Alexander');
 
-select * from employees join position p on employees.position_id = p.id;
+select * from employees join position p
+on employees.position_id = p.id;
 
 /*
 Результат
@@ -35,7 +36,7 @@ id name pos._id id name
 1	Boris	1	1	programmer
 2	Ivan	1	1	programmer
 3	Kiril	1	1	programmer
-4	Marina	2	2	project manager
+4	Marina 2 2	project manager
 5	Pers	3	3	director
 */
 
