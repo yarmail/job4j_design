@@ -41,7 +41,8 @@ where name LIKE '%мороженое%';
 -- 3. Написать запрос, который выводит все продукты,
 -- срок годности которых заканчивается в следующем месяце.
 select product.name from product
-where expired_date < '27.02.2021';
+where expired_date > current_date
+and   expired_date < current_date + interval '1 month';
 
 -- 4. Написать запрос, который выводит самый дорогой продукт.
 select max(price) from product;
@@ -58,10 +59,12 @@ where type.name = 'Сыр' or type.name = 'Молоко';
 
 -- 7. Написать запрос, который выводит тип продуктов,
 -- которых осталось меньше 10 штук.
-select type.name, product.name
+-- (сделал не 10, а меньше 2)
+select type.name
 from product inner join type
-on product.type_id = type.id
-where amount < 10;
+on  product.type_id = type.id
+group by type.id
+having count(type.id) < 2;
 
 -- 8. Вывести все продукты и их тип.
 select product.name, type.name
