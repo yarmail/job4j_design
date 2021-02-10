@@ -1,29 +1,20 @@
-/*
-Связь many-to-one
- */
+-- Связь many-to-one
 
 -- У нас есть таблица должностей
 
-/*
 CREATE TABLE position (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255)
 );
---*/
-
---------------------------
 
 -- и таблица сотрудников
 
-/*
 CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   position_id INT REFERENCES position(id)
 );
---*/
 
-------------------------
 /*
 Особое внимание стоит уделить столбцу position_id.
 Для связи таблиц между собой используется ключевое
@@ -43,25 +34,15 @@ position_id содержит значения из таблицы positions,
 
 -- Добавим должность в Таблицу должностей
 
-/*
 INSERT INTO position(name) VALUES ('programmer');
---*/
-
-------------------------------------------
 
 -- Добавим работника с этой должностью
-
-/*
 INSERT INTO employees(name, position_id)
 VALUES ('Ivan', 1);
---*/
 
------------------------------------------
-/*
+-- показать все из таблицы сотрудники
+
 SELECT * FROM employees;
---*/
-
------------------------------
 
 /*
 Видим, что в таблице position_id стоит какое-то значение.
@@ -70,12 +51,10 @@ SELECT * FROM employees;
 Таким образом, мы как бы «переходим» по ссылке.
 Через SQL это можно записать так
 */
-/*
-SELECT * FROM position WHERE id in
-(SELECT id FROM employees);
---*/
 
---------------------------
+-- ( примечание: интересный пример выбор для where
+SELECT * FROM position
+WHERE id in (SELECT id FROM employees);
 
 /*
 Обратите внимание, что стрелка идет от сущности,
