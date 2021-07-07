@@ -14,7 +14,7 @@ import java.util.Random;
  *
  * Будем запускать такую программу.
  * Она составляет строку из продублированного несколько
- * раз символа, при этом перезаписывая очейки массивы.
+ * раз символа, при этом перезаписывая ячейки массивы.
  *
  * Старые строки стираются сборщиком мусора
  */
@@ -23,7 +23,7 @@ public class GCTypeDemo {
         Random random = new Random();
         int length = 100;
         String[] data = new String[1_000_000];
-        for (int i = 0; ; i = (i + 1) % data.length) {
+        for (int i = 0;; i = (i + 1) % data.length) {
             data[i] = String.valueOf(
                     (char) random.nextInt(255)
             ).repeat(length);
