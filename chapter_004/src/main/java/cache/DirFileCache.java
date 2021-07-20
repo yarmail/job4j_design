@@ -15,7 +15,7 @@ import java.nio.file.Path;
  * При запросе по ключу Names.txt -
  * кеш должен вернуть содержимое файла Names.txt.
  */
-public class DirFileCache extends AbstractCache <String, String> {
+public class DirFileCache extends AbstractCache<String, String> {
 
     private final String cachingDir;
 

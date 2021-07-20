@@ -64,5 +64,5 @@ public abstract class AbstractCache<K, V> {
      * Программа должна считывать текстовые файлы из системы
      * и выдавать текст при запросе имени файла.
      */
-    protected  abstract V load (K key);
+    protected  abstract V load(K key);
 }
