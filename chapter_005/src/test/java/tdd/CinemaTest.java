@@ -55,4 +55,32 @@ public class CinemaTest {
         List<Session> sessions = cinema.find(session -> false);
         assertThat(sessions, is(List.of(new Session3D())));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenSamePlace() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2021, Calendar.NOVEMBER, 10, 23, 0);
+        Ticket ticket1 = cinema.buy(account, 1, 1, date);
+        Ticket ticket2 = cinema.buy(account, 1, 1, date);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenWrongDate() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(1, Calendar.NOVEMBER, 10, 23, 0);
+        Ticket ticket1 = cinema.buy(account, 1, 1, date);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenWrongPlace() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(1, Calendar.NOVEMBER, 10, 23, 0);
+        Ticket ticket1 = cinema.buy(account, 99999, 1, date);
+    }
 }
