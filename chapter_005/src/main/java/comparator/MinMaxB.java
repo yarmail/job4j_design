@@ -7,6 +7,7 @@ import java.util.List;
  * 1. Принципы Kiss, Dry и Yagni [#238813]
  * Разработайте класс для поиска максимального
  * и минимального элемента по критерию java.util.Comparator.
+ * (как я понимаю, здесь компаратор выступет в роли предиката?)
  */
 public class MinMaxB {
     public <T> T max(List<T> value, Comparator<T> comparator) {
