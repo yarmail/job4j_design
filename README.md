@@ -4,8 +4,9 @@
 ### Java Junior level tasks
 
 #### Module description
-* Chapter 5. TDD
-* Chapter 4. JVM and JMM
-* Chapter 3. Database
-* Chapter 2. Output input system
-* Chapter 1. Data Structures and Algorithms <br>
+* Chapter 1. Data Structures and Algorithms 
+* Chapter 2. Input/Output system
+* Chapter 3. PostgreSQL, JDBC
+* Chapter 4. GC, Reference
+* Chapter 5. TDD, SOLID <br> 
+
