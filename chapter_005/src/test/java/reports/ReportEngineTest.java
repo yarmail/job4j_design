@@ -2,8 +2,17 @@ package reports;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.Test;
+
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * немного странно, что мы имеем везде
@@ -24,7 +33,7 @@ public class ReportEngineTest {
      *
      */
     @Test
-    public void whenOldGenerated() {
+    public void whenOldGenerated() throws JAXBException, IOException {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
@@ -49,7 +58,7 @@ public class ReportEngineTest {
      * поля даты найма и увольнения.
      */
     @Test
-    public void forHR()  {
+    public void forHR() throws JAXBException, IOException {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker1 = new Employee("Ivan", now, now, 100);
@@ -73,7 +82,7 @@ public class ReportEngineTest {
      * Задание Отдел программистов потребовал ответы в виде html
      */
     @Test
-    public void forProg() {
+    public void forProg() throws JAXBException, IOException {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
@@ -102,7 +111,7 @@ public class ReportEngineTest {
      * (тест класса ReportFinance)
      */
     @Test
-    public void forFinance() {
+    public void forFinance() throws JAXBException, IOException {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
@@ -116,5 +125,44 @@ public class ReportEngineTest {
                 .append(worker.getFired()).append(";")
                 .append(worker.getSalary() / 72).append(";");
         assertThat(engine.generate(em -> true), is(expect.toString()));
+    }
+
+    @Test
+    public void ifJSON() throws JAXBException, IOException {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker1 = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Dima", now, now, 300);
+        Employees employees = new Employees(List.of(worker1, worker2));
+        store.add(worker1);
+        store.add(worker2);
+        Report engine = new ReportJSON(store);
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Calendar.class, new CalendarAdapterJson());
+        builder.registerTypeAdapter(GregorianCalendar.class, new CalendarAdapterJson());
+        Gson gson = builder.create();
+        String expect = gson.toJson(employees);
+        assertThat(engine.generate(em -> true), is(expect));
+    }
+
+    @Test
+    public void ifXML() throws JAXBException, IOException {
+        MemStore store = new MemStore();
+        SimpleDateFormat cFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        Report report = new ReportXML(store);
+        StringBuilder expect = new StringBuilder()
+                .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n")
+                .append("<employees>\n    ")
+                .append("<employee>\n    ")
+                .append("    <fired>").append(cFormatter.format(worker.getFired().getTime())).append("</fired>\n    ")
+                .append("    <hired>").append(cFormatter.format(worker .getHired().getTime())).append("</hired>\n    ")
+                .append("    <name>").append(worker.getName()).append("</name>\n    ")
+                .append("    <salary>").append(worker.getSalary()).append("</salary>\n    ")
+                .append("</employee>\n")
+                .append("</employees>\n");
+        assertThat(report.generate(em -> true), is(expect.toString()));
     }
 }
