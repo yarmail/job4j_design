@@ -6,7 +6,7 @@ package lspcount;
  * и когда запускаем пример, то получаем, что недобросовестный работник получает зарплату.
  * (то есть в данном случае переопределение со сменой условий это плохо)
  */
-public class ShopCountingRoom extends CountingRoom{
+public class ShopCountingRoom extends CountingRoom {
     public ShopCountingRoom(int normHours, int payPerHour) {
         super(normHours, payPerHour);
     }
