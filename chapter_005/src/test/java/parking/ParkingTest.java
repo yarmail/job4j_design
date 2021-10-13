@@ -1,7 +1,6 @@
 package parking;
 
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 /**
@@ -27,6 +26,8 @@ public class ParkingTest {
         Transport car2 = new Truck(2);
         Transport car3 = new Truck(2);
         Parking parking = new Parking(1, 1);
+        parking.park(car1);
+        parking.park(car2);
         assertFalse(parking.park(car3));
     }
 
@@ -35,7 +36,9 @@ public class ParkingTest {
         Transport car1 = new Car();
         Transport car2 = new Truck(2);
         Transport car3 = new Truck(2);
-        Parking parking = new Parking(5, 1);
+        Parking parking = new Parking(3, 1);
+        parking.park(car1);
+        parking.park(car2);
         assertTrue(parking.park(car3));
     }
 }

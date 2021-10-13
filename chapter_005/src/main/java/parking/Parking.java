@@ -1,6 +1,7 @@
 package parking;
 
 /**
+ * Логика парковки
  * (Есть тесты)
  */
 public class Parking {
@@ -18,10 +19,22 @@ public class Parking {
     }
 
     /**
-     * Класс должен ответить на вопрос,
+     * метод должен ответить на вопрос,
      * можно ли припарковаться или нет
+     * Идем от размера машины - выбираем ту или иную парковку
      */
     boolean park(Transport transport) {
-        return false;
+        boolean result = false;
+        if (transport.getSize() == 1 && this.carSpace > 0) {
+            this.carSpace--;
+            result = true;
+        } else if (transport.getSize() > 1 && this.truckSpace > 0) {
+            this.truckSpace--;
+            result = true;
+        } else if (transport.getSize() <= this.carSpace) {
+            this.carSpace -= transport.getSize();
+            result = true;
+        }
+        return result;
     }
 }
