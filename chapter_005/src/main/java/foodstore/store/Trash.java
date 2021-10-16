@@ -28,4 +28,9 @@ public class Trash implements Store {
     public List<Food> getAll() {
         return store;
     }
+
+    @Override
+    public void clear() {
+        store.clear();
+    }
 }

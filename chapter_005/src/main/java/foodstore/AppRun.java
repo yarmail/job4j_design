@@ -37,6 +37,9 @@ public class AppRun {
             controllQuality.distribute(food);
         }
         printStorageConsistance(warehouse, trash, shop);
+        controllQuality.resort();
+        printStorageConsistance(warehouse, trash, shop);
+
     }
 
     /**

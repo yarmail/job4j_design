@@ -1,7 +1,8 @@
 package foodstore;
 
-import foodstore.store.Store;
+import java.util.ArrayList;
 import java.util.List;
+import foodstore.store.Store;
 
 /**
  * Контроль качества и распределеня продуктов
@@ -28,5 +29,14 @@ public class ControllQuality {
         for (Store store: storeList) {
             store.add(food);
         }
+    }
+
+    public  void resort() {
+        List<Food> foodList = new ArrayList<>();
+        for (Store s: storeList) {
+            foodList.addAll(s.getAll());
+            s.clear();
+        }
+        foodList.forEach(this::distribute);
     }
 }
