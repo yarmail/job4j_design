@@ -23,8 +23,7 @@
   </properties>
 
   <dependencies>
-      <!-- Testing -->
-      <dependency>
+      <dependency> <!-- Testing -->
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
           <version>4.12</version>
@@ -36,8 +35,7 @@
           <version>1.3</version>
           <scope>test</scope>
       </dependency>
-      <!-- log -->
-      <dependency>
+      <dependency> <!-- log -->
           <groupId>log4j</groupId>
           <artifactId>log4j</artifactId>
           <version>1.2.17</version>
@@ -47,8 +45,7 @@
           <artifactId>slf4j-log4j12</artifactId>
           <version>1.7.30</version>
       </dependency>
-      <!-- json -->
-      <dependency>
+      <dependency> <!-- json -->
           <groupId>com.google.code.gson</groupId>
           <artifactId>gson</artifactId>
           <version>2.8.6</version>
@@ -58,8 +55,7 @@
           <artifactId>json</artifactId>
           <version>20200518</version>
       </dependency>
-      <!-- xml -->
-      <dependency>
+      <dependency> <!-- xml -->
           <groupId>javax.xml.bind</groupId>
           <artifactId>jaxb-api</artifactId>
           <version>2.3.1</version>
@@ -74,17 +70,27 @@
           <artifactId>jaxb-runtime</artifactId>
           <version>2.3.1</version>
       </dependency>
-      <!--PostgreSQL JDBC Driver-->
-      <dependency>
+      <dependency> <!--PostgreSQL JDBC Driver-->
           <groupId>org.postgresql</groupId>
           <artifactId>postgresql</artifactId>
           <version>42.2.16</version>
       </dependency>
-      <!--Java Objects size estimation-->
-      <dependency>
+      <dependency> <!--Java Objects size estimation-->
           <groupId>com.carrotsearch</groupId>
           <artifactId>java-sizeof</artifactId>
           <version>0.0.5</version>
+      </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <version>5.8.2</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-core</artifactId>
+          <version>3.23.1</version>
+          <scope>test</scope>
       </dependency>
   </dependencies>
   
