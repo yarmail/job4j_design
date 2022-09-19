@@ -12,9 +12,11 @@ public class UserB {
     public UserB(String name) {
         this.name = name;
     }
-
+/*  Definition of 'hashCode()' without corresponding definition of 'equals()'.
     @Override
     public int hashCode() {
         return Objects.hash(name);
     }
+
+ */
 }

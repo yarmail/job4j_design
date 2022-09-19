@@ -132,7 +132,7 @@ public class HashMapSimple<K, V> implements Iterable<HashMapSimple.Node<K, V>> {
             if (oldHashTable[i] != null) {
                 K key = oldHashTable[i].getKey();
                 int indexNew = indexFor(hashKey(key));
-                hashTable [indexNew] = oldHashTable[i];
+                hashTable[indexNew] = oldHashTable[i];
             }
         }
     }
