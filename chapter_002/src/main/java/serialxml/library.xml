@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<library isWork="false" numOfBooks="9746">
+    <genres>
+        <genre>Adventure</genre>
+        <genre>Classics</genre>
+        <genre>Detective</genre>
+    </genres>
+    <book name="1984"/>
+</library>
