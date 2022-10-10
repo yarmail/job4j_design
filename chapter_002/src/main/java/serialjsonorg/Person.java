@@ -27,6 +27,13 @@ public class Person {
     public int getAge() {
         return age;
     }
+    public Contact getContact() {
+        return contact;
+    }
+
+    public String[] getStatuses() {
+        return statuses;
+    }
 
     @Override
     public String toString() {
