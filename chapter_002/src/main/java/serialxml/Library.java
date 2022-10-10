@@ -1,12 +1,22 @@
 package serialxml;
 
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 
+@XmlRootElement(name = "library")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Library {
-    private final boolean isWork;
-    private final int numOfBooks;
-    private final String[] genre;
-    private final Book book;
+    @XmlAttribute
+    private boolean isWork;
+    private int numOfBooks;
+    @XmlElementWrapper(name = "genres")
+    @XmlElement(name = "genre")
+    private String[] genre;
+    private Book book;
+
+    public Library() {
+
+    }
 
     public Library(boolean isWork, int numOfBooks, String[] genre, Book book) {
         this.isWork = isWork;
@@ -23,10 +33,5 @@ public class Library {
                 + ", genre=" + Arrays.toString(genre)
                 + ", book=" + book
                 + '}';
-    }
-
-    public static void main(String[] args) {
-        final Library library = new Library(false, 9746,
-                new String[] {"Adventure", "Classics", "Detective"}, new Book("1984"));
     }
 }
