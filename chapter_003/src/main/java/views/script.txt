@@ -1,0 +1,65 @@
+-- Задание к теме 1. Представления [#504792]
+
+create table Client(
+    client_id serial primary key,
+    client_name varchar
+);
+
+create table Author(
+    author_id serial primary key,
+    author_name varchar
+);
+
+create table Genre(
+    genre_id serial primary key,
+    genre_name varchar
+);
+
+create table Book(
+    book_id serial primary key,
+    book_name varchar,
+    author_id int references Author(author_id),
+    genre_id int references Genre(genre_id)
+);
+
+create table Orders(
+    orders_id serial primary key,
+    client_id int references Client(client_id),
+    book_id int references Book(book_id)
+);
+
+insert into Client(client_name) values
+('client1'), ('client2'), ('client3');
+
+insert into Author(author_name) values
+('author1'), ('author2'), ('author3');
+
+insert into Genre(genre_name) values
+('genre1'), ('genre2'), ('genre3');
+
+insert into Book(book_name, author_id, genre_id) values
+('book1', 1, 1), ('book2', 2, 1), ('book3', 3, 1),
+('book4', 2, 1), ('book5', 2, 2), ('book6', 1, 3),
+('book7', 3, 1), ('book8', 3, 2), ('book9', 3, 3);
+
+insert into Orders(client_id, book_id) values
+(1, 1), (1, 1), (1, 3),
+(2, 1), (2, 2), (2, 3),
+(3, 1), (3, 2), (3, 3);
+
+create view show_clients_with_1_or_more_genre1
+as select client_name, count(book_name) from Client
+    join Orders using(client_id)
+    join Book using (book_id)
+    join Author using (author_id)
+    join Genre using (genre_id)
+where genre_name = 'genre1'
+group by (client_name) having count(book_name)>1;
+
+select * from show_clients_with_1_or_more_genre1;
+
+alter view show_clients_with_1_or_more_genre1 rename to show1;
+
+select * from show1;
+
+-- drop view show_clients_with_1_or_more_genre1;
